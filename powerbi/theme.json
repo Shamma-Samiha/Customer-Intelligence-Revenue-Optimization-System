@@ -1,0 +1,7 @@
+{
+  "name": "Customer Intelligence Theme",
+  "dataColors": ["#2563eb", "#0f766e", "#16a34a", "#f59e0b", "#dc2626", "#7c3aed", "#06b6d4"],
+  "background": "#ffffff",
+  "foreground": "#0f172a",
+  "tableAccent": "#2563eb"
+}
