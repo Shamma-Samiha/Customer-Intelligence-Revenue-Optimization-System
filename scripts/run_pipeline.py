@@ -16,6 +16,7 @@ def main() -> None:
     cleaned_df = clean_superstore_data(raw_df)
     export_csv(cleaned_df, project_root / "data" / "cleaned" / "superstore_cleaned.csv")
     export_csv(cleaned_df, project_root / "data" / "processed" / "cleaned_orders.csv")
+    export_csv(cleaned_df, project_root / "outputs" / "csv" / "cleaned_orders.csv")
 
     executive_kpis = build_executive_kpis(cleaned_df)
     export_csv(executive_kpis, project_root / "data" / "processed" / "executive_kpis.csv")

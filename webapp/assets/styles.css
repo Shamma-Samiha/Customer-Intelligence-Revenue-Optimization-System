@@ -2,6 +2,14 @@
     background: linear-gradient(180deg, #f8fbff 0%, #eef7f5 100%);
 }
 
+[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #0f172a 0%, #12304c 100%);
+}
+
+[data-testid="stSidebar"] * {
+    color: #e2e8f0;
+}
+
 .hero {
     padding: 2rem 2.25rem;
     border-radius: 22px;
@@ -41,4 +49,51 @@
     box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
     border: 1px solid #e2e8f0;
     margin-bottom: 1rem;
+}
+
+.section-header {
+    margin: 0.25rem 0 0.8rem;
+    font-size: 1.45rem;
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.section-subtitle {
+    color: #475569;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.insight-card {
+    border-radius: 18px;
+    padding: 1rem 1.1rem;
+    margin: 0.5rem 0 1rem;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+    border: 1px solid #dbeafe;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.insight-teal {
+    border-left: 5px solid #0f766e;
+}
+
+.insight-blue {
+    border-left: 5px solid #2563eb;
+}
+
+.insight-rose {
+    border-left: 5px solid #e11d48;
+}
+
+.insight-title {
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #64748b;
+    margin-bottom: 0.35rem;
+}
+
+.insight-text {
+    color: #0f172a;
+    line-height: 1.65;
 }

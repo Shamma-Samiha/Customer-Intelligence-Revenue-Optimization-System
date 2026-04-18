@@ -13,3 +13,15 @@ def render_kpi_row(items: list[tuple[str, str]]) -> None:
             ''',
             unsafe_allow_html=True,
         )
+
+
+def render_insight(title: str, text: str, tone: str = "teal") -> None:
+    st.markdown(
+        f'''
+        <div class="insight-card insight-{tone}">
+            <div class="insight-title">{title}</div>
+            <div class="insight-text">{text}</div>
+        </div>
+        ''',
+        unsafe_allow_html=True,
+    )

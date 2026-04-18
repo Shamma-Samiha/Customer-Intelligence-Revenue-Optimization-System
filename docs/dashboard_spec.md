@@ -1,89 +1,117 @@
 # Power BI Dashboard Specification
 
-## Premium Dashboard Title
+## Dashboard Title
 Customer Intelligence & Revenue Forecasting System
 
+## Subtitle
+From retail transactions to customer strategy, churn-risk monitoring, and revenue planning
+
+## Recommended Data Model
+
+### Fact Tables
+- `cleaned_orders`
+- `revenue_forecast`
+
+### Analytical Support Tables
+- `rfm_table`
+- `churn_predictions`
+
+### Dimensions
+- `dim_date`
+- `dim_customer`
+- `dim_product`
+- `dim_geography`
+
+## Relationships
+
+- `cleaned_orders[order_date]` many-to-one -> `dim_date[date]`
+- `revenue_forecast[ds]` many-to-one -> `dim_date[date]`
+- `cleaned_orders[customer_id]` many-to-one -> `dim_customer[customer_id]`
+- `rfm_table[customer_id]` many-to-one -> `dim_customer[customer_id]`
+- `churn_predictions[customer_id]` many-to-one -> `dim_customer[customer_id]`
+- `cleaned_orders[product_id]` many-to-one -> `dim_product[product_id]`
+- `cleaned_orders[region/state/country]` many-to-one -> `dim_geography`
+
+Keep relationship direction single from dimensions to facts. Avoid bidirectional filtering unless a drill-through use case truly requires it.
+
 ## Page 1: Executive Overview
-Purpose: Provide leadership with a high-level view of performance, profitability, and forward-looking revenue.
+Purpose: Give leadership a fast read on performance, margin quality, and forward-looking revenue.
+
 Visuals:
-- KPI cards: Total Sales, Total Profit, Total Orders, Total Customers, Avg Order Value
-- Monthly sales trend
-- Monthly profit trend
-- Revenue forecast line chart
-- Segment revenue contribution
-- Region summary bar chart
-Filters:
-- Order year
+- KPI cards: Total Sales, Total Profit, Profit Margin %, Total Orders, Total Customers, Avg Order Value
+- Monthly sales trend line
+- Monthly profit trend line
+- Revenue forecast chart with upper/lower band
+- Sales by region bar chart
+- Revenue by segment stacked bar
+
+Slicers:
+- Order Year
 - Market
 - Region
-- Segment
+- Customer Segment
 
 ## Page 2: Customer Intelligence
-Purpose: Show how customers are distributed by value and engagement.
+Purpose: Show how customer value is distributed and where retention effort should concentrate.
+
 Visuals:
-- RFM segment count chart
-- Revenue by RFM segment
-- Top customers by sales
-- Top customers by profit
+- Customer count by RFM segment
+- Revenue contribution by RFM segment
 - Recency vs monetary scatter plot
-- Customer detail table
+- Top customers by revenue
+- Top customers by profit
+- Customer detail table with recency, frequency, monetary, churn probability
+
+Drill-through:
+- Customer profile page by `customer_id`
 
 ## Page 3: Churn Risk
-Purpose: Highlight customers most likely to go inactive.
+Purpose: Surface the customers most likely to go inactive and explain the size of the risk pool.
+
 Visuals:
-- Churn-risk customer count
-- Churn probability distribution
-- At-risk customer table
-- Top churn drivers
-- Risk by RFM segment
+- Predicted at-risk customer KPI
+- Average churn probability KPI
+- Churn probability histogram
+- High-risk customer table
+- Churn risk by region
+- Churn risk by RFM segment
 
 ## Page 4: Product & Profitability
-Purpose: Expose where revenue is strong and where margin leaks occur.
+Purpose: Reveal which products and categories create profitable scale and which destroy margin.
+
 Visuals:
 - Sales by category
 - Profit by category
 - Profit by sub-category
+- Top products by sales
 - Loss-making products table
 - Discount vs profit scatter plot
 
 ## Page 5: Geographic Performance
-Purpose: Compare performance across countries, regions, and markets.
+Purpose: Compare country, region, and market performance to identify leaders and laggards.
+
 Visuals:
-- Sales by country
-- Profit by region
-- Sales by market
-- Map visual by country or state
-- Geographic ranking table
+- Sales by country map
+- Profit by region column chart
+- Sales by market chart
+- Geographic ranking matrix
+- Filtered product/category performance by region
 
-## Recommended Model
-Fact table:
-- cleaned_orders
+## Visual Design Recommendations
 
-Dimension tables:
-- dim_customer
-- dim_product
-- dim_geography
-- dim_date
-- rfm_table
-- churn_predictions
-- revenue_forecast
+- Use a navy base with teal and emerald accents for KPIs and positive results.
+- Use rose/red sparingly for churn and loss signals.
+- Keep KPI cards in the top band with generous padding.
+- Place slicers in a left rail or top strip with consistent ordering.
+- Use no more than 5-6 visuals per page to maintain readability.
+- Add short page subtitles so the dashboard feels like a guided business story.
 
-## DAX Measures
-- Total Sales = SUM(cleaned_orders[sales])
-- Total Profit = SUM(cleaned_orders[profit])
-- Profit Margin % = DIVIDE([Total Profit], [Total Sales])
-- Total Orders = DISTINCTCOUNT(cleaned_orders[order_id])
-- Total Customers = DISTINCTCOUNT(cleaned_orders[customer_id])
-- Avg Order Value = DIVIDE([Total Sales], [Total Orders])
-- At Risk Customers = CALCULATE(DISTINCTCOUNT(churn_predictions[customer_id]), churn_predictions[predicted_churn_risk] = 1)
-- VIP Revenue = CALCULATE(SUM(rfm_table[monetary]), rfm_table[rfm_segment] = "VIP Customers")
+## Recruiter-Focused Storytelling Flow
 
-## Design Guidance
-- Use a navy, teal, and emerald accent palette with plenty of white space.
-- Keep KPI cards in a single top row.
-- Place slicers in a clean left panel or slim top strip.
-- Use consistent chart titles that read like business questions.
-- Reserve dense tables for drill-through pages.
+1. Start with company performance and revenue trend.
+2. Move into customer value through RFM.
+3. Transition into churn risk and retention urgency.
+4. Show operational detail through product and profitability.
+5. Finish with geographic scale and market opportunity.
 
-## Storytelling Guidance
-Start with company performance, move into customer value, then risk, then operational detail. This creates a recruiter-friendly narrative that feels business-aware rather than chart-heavy.
+This structure makes the dashboard feel strategic rather than purely descriptive.
