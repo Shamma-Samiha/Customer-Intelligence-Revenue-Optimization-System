@@ -122,17 +122,7 @@ streamlit run webapp/app.py
 ```
 
 ### Power BI Dashboard
-The Power BI design pack includes:
 
-- multi-page dashboard specification
-- recommended table relationships
-- DAX measures
-- visual storytelling guidance
-
-See:
-
-- [docs/dashboard_spec.md](docs/dashboard_spec.md)
-- [powerbi/dax_measures.md](powerbi/dax_measures.md)
 
 ## Key Output Files
 
@@ -145,12 +135,7 @@ See:
 
 ## Screenshots
 
-Add screenshots here after deployment:
 
-- `docs/screenshots/streamlit_home.png`
-- `docs/screenshots/customer_intelligence.png`
-- `docs/screenshots/churn_dashboard.png`
-- `docs/screenshots/powerbi_executive_overview.png`
 
 ## How to Run Locally
 
@@ -173,7 +158,3 @@ This project helps decision-makers:
 - prioritize retention and reactivation activity
 - spot profit leakage by category and geography
 - plan ahead using forecasted revenue
-
-## Recruiter Summary
-
-Built a full analytics product around retail transaction data using Python, scikit-learn, Streamlit, and Power BI design principles to deliver customer segmentation, churn-risk monitoring, revenue forecasting, and executive-ready dashboards.
