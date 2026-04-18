@@ -52,23 +52,40 @@ st.sidebar.success(f"Deployment root: `{project_root.name}`")
 
 st.markdown('<div class="section-header">Platform Overview</div>', unsafe_allow_html=True)
 st.markdown(
-    '<div class="section-subtitle">This Streamlit experience packages the full analytics workflow into a presentation-ready application for recruiters, hiring managers, and stakeholders.</div>',
+    '<div class="section-subtitle">A polished analytics workspace that turns a retail transaction dataset into a strategic story about growth, customer value, churn risk, and revenue planning.</div>',
     unsafe_allow_html=True,
 )
 
-col1, col2 = st.columns([1.2, 1])
+col1, col2 = st.columns([1.15, 1])
 with col1:
     render_insight(
         "What This App Covers",
-        "Executive KPIs, customer intelligence, churn-risk prioritization, revenue forecasting, and project methodology are all available through the sidebar page flow.",
+        "Move from an executive performance snapshot into customer segmentation, retention risk, forward-looking forecasting, and the methodology that ties the whole product together.",
         tone="blue",
     )
 with col2:
     render_insight(
-        "Deployment Notes",
-        "The app uses repository-relative paths, cached CSV loading, and package-safe imports so it can deploy cleanly on Streamlit Community Cloud.",
+        "Why It Feels Different",
+        "The experience is built to read like a business product rather than a notebook export: cleaner hierarchy, curated metrics, clearer charts, and insights written for decision-makers.",
         tone="teal",
     )
 
-st.markdown("### App Navigation")
-st.write("Open the sidebar pages to walk from business summary to customer strategy, retention risk, forecasting, and methodology.")
+col3, col4, col5 = st.columns(3)
+with col3:
+    render_insight(
+        "Executive Summary",
+        "Track scale, profitability, regional strength, and forecast direction at a glance.",
+        tone="teal",
+    )
+with col4:
+    render_insight(
+        "Customer Intelligence",
+        "See who creates value, which segments deserve protection, and where reactivation is needed.",
+        tone="blue",
+    )
+with col5:
+    render_insight(
+        "Decision Support",
+        "Translate historical transactions into targeting, retention, and planning conversations.",
+        tone="rose",
+    )

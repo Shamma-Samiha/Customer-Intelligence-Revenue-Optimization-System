@@ -25,3 +25,16 @@ def render_insight(title: str, text: str, tone: str = "teal") -> None:
         ''',
         unsafe_allow_html=True,
     )
+
+
+def render_page_intro(eyebrow: str, title: str, subtitle: str) -> None:
+    st.markdown(
+        f'''
+        <div class="page-hero">
+            <div class="page-eyebrow">{eyebrow}</div>
+            <div class="page-title">{title}</div>
+            <div class="page-subtitle">{subtitle}</div>
+        </div>
+        ''',
+        unsafe_allow_html=True,
+    )
