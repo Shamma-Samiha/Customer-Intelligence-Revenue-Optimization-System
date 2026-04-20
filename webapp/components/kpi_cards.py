@@ -38,3 +38,27 @@ def render_page_intro(eyebrow: str, title: str, subtitle: str) -> None:
         ''',
         unsafe_allow_html=True,
     )
+
+
+def render_section_header(title: str, subtitle: str) -> None:
+    st.markdown(
+        f'''
+        <div class="section-card">
+            <div class="section-header">{title}</div>
+            <div class="section-subtitle">{subtitle}</div>
+        </div>
+        ''',
+        unsafe_allow_html=True,
+    )
+
+
+def render_info_card(title: str, text: str) -> None:
+    st.markdown(
+        f'''
+        <div class="section-card" style="padding-bottom:1.2rem;">
+            <div class="section-header" style="font-size:1.15rem; margin-top:0;">{title}</div>
+            <div class="section-subtitle" style="margin-bottom:0;">{text}</div>
+        </div>
+        ''',
+        unsafe_allow_html=True,
+    )
