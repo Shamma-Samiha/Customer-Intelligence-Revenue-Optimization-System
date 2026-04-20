@@ -11,10 +11,11 @@ if str(PROJECT_ROOT) not in sys.path:
 from webapp.bootstrap import ensure_project_on_path, load_app_styles
 from webapp.components.charts import bar_chart, horizontal_bar_chart, histogram_chart
 from webapp.components.kpi_cards import (
+    render_dashboard_hero,
     render_info_card,
     render_insight,
     render_kpi_row,
-    render_page_intro,
+    render_page_spacer,
     render_section_header,
 )
 from webapp.components.tables import show_table
@@ -98,10 +99,15 @@ high_risk = (
     )
 )
 
-render_page_intro(
+render_dashboard_hero(
     "Retention Risk Monitoring",
     "Churn Risk",
     "A business-ready early warning dashboard that surfaces how broad the risk pool is, where risk is concentrated, and which customers deserve immediate retention attention.",
+    badges=[
+        f"High-Risk Base: {high_risk_count:,}",
+        f"Average Risk: {pct(churn['churn_probability'].mean())}",
+        f"Avg Recency: {int(churn['recency'].mean()):,} days",
+    ],
 )
 
 render_kpi_row(
@@ -112,6 +118,8 @@ render_kpi_row(
         ("Avg Recency", days(churn["recency"].mean())),
     ]
 )
+
+render_page_spacer(0.9)
 
 render_section_header(
     "Risk Distribution",
@@ -155,6 +163,8 @@ with col4:
         "Use this dashboard to allocate retention resources toward recent deterioration patterns instead of spreading the same attention budget across the entire customer portfolio.",
     )
 
+render_page_spacer(0.55)
+
 render_section_header(
     "Decision Support",
     "The strongest retention dashboards do more than list risky accounts. They connect severity, drivers, and action so the commercial team knows what to do next.",
@@ -179,5 +189,7 @@ with insight_col3:
         "Prioritize accounts with both high churn probability and meaningful revenue contribution first, because those customers represent the fastest path to protecting future revenue.",
         tone="teal",
     )
+
+render_page_spacer(0.45)
 
 show_table(high_risk, "Highest-Risk Customers")

@@ -7,8 +7,14 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from webapp.bootstrap import ensure_project_on_path
-from webapp.components.kpi_cards import render_insight
+from webapp.bootstrap import ensure_project_on_path, load_app_styles
+from webapp.components.kpi_cards import (
+    render_dashboard_hero,
+    render_info_card,
+    render_insight,
+    render_page_spacer,
+    render_section_header,
+)
 from webapp.utils.loaders import validate_app_data
 
 
@@ -21,21 +27,17 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-css_path = Path(__file__).resolve().parent / "assets" / "styles.css"
-st.markdown(f"<style>{css_path.read_text(encoding='utf-8')}</style>", unsafe_allow_html=True)
+load_app_styles()
 
-st.markdown(
-    """
-    <div class="hero">
-        <div style="font-size:13px; letter-spacing:0.14em; text-transform:uppercase; opacity:0.85;">Analytics Portfolio Project</div>
-        <h1 style="margin:8px 0 10px;">Customer Intelligence & Revenue Forecasting System</h1>
-        <p style="font-size:1.05rem; max-width:900px; line-height:1.7; margin:0;">
-            A recruiter-ready retail analytics platform combining exploratory analysis, RFM segmentation,
-            churn-risk modeling, and 90-day revenue forecasting in one polished business-facing application.
-        </p>
-    </div>
-    """,
-    unsafe_allow_html=True,
+render_dashboard_hero(
+    "Analytics Portfolio Project",
+    "Customer Intelligence & Revenue Forecasting System",
+    "A recruiter-ready retail analytics product that turns transaction history into executive performance reporting, customer intelligence, churn-risk monitoring, and forward-looking revenue planning.",
+    badges=[
+        "Executive KPI Storytelling",
+        "Customer Segmentation + Churn",
+        "Forecasting + Dashboard Delivery",
+    ],
 )
 
 missing = validate_app_data()
@@ -50,42 +52,57 @@ st.sidebar.markdown("## Navigation")
 st.sidebar.caption("Use the pages below to move through the analytics story.")
 st.sidebar.success(f"Deployment root: `{project_root.name}`")
 
-st.markdown('<div class="section-header">Platform Overview</div>', unsafe_allow_html=True)
-st.markdown(
-    '<div class="section-subtitle">A polished analytics workspace that turns a retail transaction dataset into a strategic story about growth, customer value, churn risk, and revenue planning.</div>',
-    unsafe_allow_html=True,
+render_section_header(
+    "Platform Overview",
+    "The app is structured like a modern analytics workspace: clean hierarchy, focused KPI summaries, business-facing charts, and short narrative blocks that help the viewer move from metrics to decisions.",
 )
 
-col1, col2 = st.columns([1.15, 1])
-with col1:
+overview_col1, overview_col2 = st.columns([1.15, 1])
+with overview_col1:
     render_insight(
         "What This App Covers",
         "Move from an executive performance snapshot into customer segmentation, retention risk, forward-looking forecasting, and the methodology that ties the whole product together.",
         tone="blue",
     )
-with col2:
+with overview_col2:
     render_insight(
         "Why It Feels Different",
         "The experience is built to read like a business product rather than a notebook export: cleaner hierarchy, curated metrics, clearer charts, and insights written for decision-makers.",
         tone="teal",
     )
 
-col3, col4, col5 = st.columns(3)
-with col3:
+render_page_spacer(0.5)
+
+feature_col1, feature_col2, feature_col3 = st.columns(3)
+with feature_col1:
     render_insight(
         "Executive Summary",
         "Track scale, profitability, regional strength, and forecast direction at a glance.",
         tone="teal",
     )
-with col4:
+with feature_col2:
     render_insight(
         "Customer Intelligence",
         "See who creates value, which segments deserve protection, and where reactivation is needed.",
         tone="blue",
     )
-with col5:
+with feature_col3:
     render_insight(
         "Decision Support",
         "Translate historical transactions into targeting, retention, and planning conversations.",
         tone="rose",
+    )
+
+render_page_spacer(0.55)
+
+detail_col1, detail_col2 = st.columns(2)
+with detail_col1:
+    render_info_card(
+        "How To Navigate",
+        "Start with Executive Overview for the operating snapshot, then move into Customer Intelligence, Churn Risk, and Revenue Forecast to understand where commercial action should go next.",
+    )
+with detail_col2:
+    render_info_card(
+        "Portfolio Signal",
+        "This project is intentionally presented as a polished analytics product, showing not just modeling capability but also structured decision support and frontend dashboard design.",
     )

@@ -10,10 +10,11 @@ if str(PROJECT_ROOT) not in sys.path:
 from webapp.bootstrap import ensure_project_on_path, load_app_styles
 from webapp.components.charts import donut_chart, horizontal_bar_chart, scatter_chart
 from webapp.components.kpi_cards import (
+    render_dashboard_hero,
     render_info_card,
     render_insight,
     render_kpi_row,
-    render_page_intro,
+    render_page_spacer,
     render_section_header,
 )
 from webapp.components.tables import show_table
@@ -59,10 +60,15 @@ top_customers = (
     )
 )
 
-render_page_intro(
+render_dashboard_hero(
     "Customer Value Lens",
     "Customer Intelligence",
     "A structured view of customer quality and value concentration, turning RFM outputs into a cleaner commercial dashboard for targeting, retention, and account prioritization.",
+    badges=[
+        f"Top Segment: {top_segment}",
+        f"Customer Base: {rfm['customer_id'].nunique():,}",
+        f"Avg Recency: {int(rfm['recency'].mean()):,} days",
+    ],
 )
 
 render_kpi_row(
@@ -73,6 +79,8 @@ render_kpi_row(
         ("Avg Recency", days(rfm["recency"].mean())),
     ]
 )
+
+render_page_spacer(0.9)
 
 render_section_header(
     "Customer Portfolio Snapshot",
@@ -125,6 +133,8 @@ with col4:
         "Revenue",
     )
 
+render_page_spacer(0.6)
+
 render_section_header(
     "Interpretation Layer",
     "The analytics are most useful when they help a stakeholder decide where to defend value, where to reactivate relationships, and where to keep premium service levels high.",
@@ -149,6 +159,8 @@ with insight_col3:
         "Use the RFM mix to separate premium account management from reactivation workflows instead of treating every customer with the same sales or retention motion.",
         tone="blue",
     )
+
+render_page_spacer(0.45)
 
 detail_col1, detail_col2 = st.columns([1.2, 0.8])
 with detail_col1:

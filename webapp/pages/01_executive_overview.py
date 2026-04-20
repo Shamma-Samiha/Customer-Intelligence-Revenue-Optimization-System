@@ -9,7 +9,13 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from webapp.bootstrap import ensure_project_on_path, load_app_styles
 from webapp.components.charts import horizontal_bar_chart, line_chart
-from webapp.components.kpi_cards import render_insight, render_kpi_row
+from webapp.components.kpi_cards import (
+    render_dashboard_hero,
+    render_insight,
+    render_kpi_row,
+    render_page_spacer,
+    render_section_header,
+)
 from webapp.utils.filters import sidebar_filters
 from webapp.utils.formatters import money
 from webapp.utils.loaders import load_all_data
@@ -19,39 +25,6 @@ def show_chart(fig, x_title: str, y_title: str) -> None:
     fig.update_xaxes(title=x_title)
     fig.update_yaxes(title=y_title)
     st.plotly_chart(fig, use_container_width=True)
-
-
-def render_hero() -> None:
-    st.markdown(
-        """
-        <div class="hero" style="margin-bottom:1.4rem;">
-            <div style="font-size:0.78rem; letter-spacing:0.16em; text-transform:uppercase; opacity:0.88; font-weight:700;">
-                Leadership Dashboard
-            </div>
-            <div style="font-family:'Manrope','Segoe UI',sans-serif; font-size:3rem; line-height:1.02; font-weight:800; margin:0.45rem 0 0.85rem;">
-                Executive Overview
-            </div>
-            <div style="max-width:820px; font-size:1.08rem; line-height:1.75; opacity:0.96;">
-                A premium operating snapshot of revenue scale, profitability, regional concentration, and segment performance
-                designed for fast business review and recruiter-ready storytelling.
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-
-def render_section_card(title: str, subtitle: str) -> None:
-    st.markdown(
-        f"""
-        <div class="section-card">
-            <div class="section-header">{title}</div>
-            <div class="section-subtitle">{subtitle}</div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
 
 ensure_project_on_path()
 load_app_styles()
@@ -84,7 +57,16 @@ segment_summary = (
 top_region = region_summary.iloc[0]["region"] if not region_summary.empty else "N/A"
 top_segment = segment_summary.iloc[0]["segment"] if not segment_summary.empty else "N/A"
 
-render_hero()
+render_dashboard_hero(
+    "Leadership Dashboard",
+    "Executive Overview",
+    "A premium operating snapshot of revenue scale, profitability, regional concentration, and segment performance designed for fast business review and recruiter-ready storytelling.",
+    badges=[
+        f"Leading Region: {top_region}",
+        f"Top Segment: {top_segment}",
+        f"Orders in View: {total_orders:,}",
+    ],
+)
 
 with st.container():
     render_kpi_row(
@@ -96,10 +78,10 @@ with st.container():
         ]
     )
 
-st.markdown("<div style='height:1.05rem;'></div>", unsafe_allow_html=True)
+render_page_spacer(1.05)
 
 with st.container():
-    render_section_card(
+    render_section_header(
         "Performance Momentum",
         "Track how revenue and profit evolve over time to understand whether scale is translating into healthier business performance.",
     )
@@ -117,10 +99,10 @@ with st.container():
             "Profit",
         )
 
-st.markdown("<div style='height:0.9rem;'></div>", unsafe_allow_html=True)
+render_page_spacer(0.9)
 
 with st.container():
-    render_section_card(
+    render_section_header(
         "Commercial Mix",
         "Compare where sales are concentrated geographically and which customer segments are driving the strongest share of revenue.",
     )
@@ -150,10 +132,10 @@ with st.container():
             "Segment",
         )
 
-st.markdown("<div style='height:0.9rem;'></div>", unsafe_allow_html=True)
+render_page_spacer(0.9)
 
 with st.container():
-    render_section_card(
+    render_section_header(
         "Executive Insight Panel",
         "Use these short reads to connect the dashboard signals with commercial interpretation and decision-making.",
     )

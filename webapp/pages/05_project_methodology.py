@@ -9,10 +9,11 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from webapp.bootstrap import ensure_project_on_path, load_app_styles
 from webapp.components.kpi_cards import (
+    render_dashboard_hero,
     render_info_card,
     render_insight,
     render_kpi_row,
-    render_page_intro,
+    render_page_spacer,
     render_section_header,
 )
 
@@ -20,10 +21,15 @@ from webapp.components.kpi_cards import (
 ensure_project_on_path()
 load_app_styles()
 
-render_page_intro(
+render_dashboard_hero(
     "Project Architecture",
     "Project Methodology",
     "A cleaner explanation of how the product moves from raw retail data to executive reporting, customer intelligence, churn scoring, and revenue forecasting.",
+    badges=[
+        "Data Pipeline to Dashboard",
+        "Reusable Analytics Workflow",
+        "Recruiter-Ready Delivery",
+    ],
 )
 
 render_kpi_row(
@@ -34,6 +40,8 @@ render_kpi_row(
         ("Project Scope", "End-to-End"),
     ]
 )
+
+render_page_spacer(0.9)
 
 render_section_header(
     "Methodology Overview",
@@ -63,6 +71,8 @@ with col4:
         "Delivery Output",
         "The final result is organized into reusable scripts, processed outputs, dashboard pages, and deployable app structure so the work reads like a product build instead of a one-off notebook analysis.",
     )
+
+render_page_spacer(0.55)
 
 render_section_header(
     "Why The Workflow Matters",

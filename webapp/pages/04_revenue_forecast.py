@@ -12,10 +12,11 @@ if str(PROJECT_ROOT) not in sys.path:
 from webapp.bootstrap import ensure_project_on_path, load_app_styles
 from webapp.components.charts import area_line_chart, forecast_chart
 from webapp.components.kpi_cards import (
+    render_dashboard_hero,
     render_info_card,
     render_insight,
     render_kpi_row,
-    render_page_intro,
+    render_page_spacer,
     render_section_header,
 )
 from webapp.components.tables import show_table
@@ -81,10 +82,15 @@ forecast_preview = (
     )
 )
 
-render_page_intro(
+render_dashboard_hero(
     "Forward Planning Layer",
     "Revenue Forecast",
     "A polished planning view that connects historical sales momentum with the projected revenue path ahead, making the forecast easier to use in budgeting and growth conversations.",
+    badges=[
+        f"Forecast Horizon: {len(future):,} days",
+        f"Projected Revenue: {money(future['yhat'].sum())}",
+        f"Growth Signal: {pct(growth_rate)}",
+    ],
 )
 
 render_kpi_row(
@@ -95,6 +101,8 @@ render_kpi_row(
         ("Peak Forecast Day", money(future["yhat"].max())),
     ]
 )
+
+render_page_spacer(0.9)
 
 render_section_header(
     "Performance Outlook",
@@ -144,6 +152,8 @@ with col4:
             "Revenue",
         )
 
+render_page_spacer(0.55)
+
 render_section_header(
     "Future Insights",
     "A good forecast page should help a stakeholder talk about planning, not just prediction. These blocks turn the model output into practical decision signals.",
@@ -168,6 +178,8 @@ with insight_col3:
         "Use the forecast as a planning range for commercial targets, cash expectations, and operating readiness rather than treating it as a single guaranteed outcome.",
         tone="blue",
     )
+
+render_page_spacer(0.45)
 
 detail_col1, detail_col2 = st.columns([1.2, 0.8])
 with detail_col1:
