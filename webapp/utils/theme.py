@@ -93,7 +93,10 @@ THEMES: dict[str, dict[str, str | list[str]]] = {
 def initialize_theme() -> str:
     if THEME_KEY not in st.session_state:
         st.session_state[THEME_KEY] = THEME_OPTIONS[0]
-    st.session_state[THEME_TOGGLE_KEY] = st.session_state[THEME_KEY] == "Dark"
+    if THEME_TOGGLE_KEY not in st.session_state:
+        st.session_state[THEME_TOGGLE_KEY] = st.session_state[THEME_KEY] == "Dark"
+    else:
+        st.session_state[THEME_KEY] = "Dark" if st.session_state[THEME_TOGGLE_KEY] else "Light"
     return st.session_state[THEME_KEY]
 
 
@@ -148,8 +151,6 @@ def inject_active_theme() -> None:
 
 def render_theme_toggle() -> str:
     current_theme = initialize_theme()
-    if THEME_TOGGLE_KEY not in st.session_state:
-        st.session_state[THEME_TOGGLE_KEY] = current_theme == "Dark"
 
     st.sidebar.markdown("## Appearance")
     st.sidebar.markdown(
