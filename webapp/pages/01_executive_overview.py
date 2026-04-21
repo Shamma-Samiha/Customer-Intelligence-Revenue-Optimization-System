@@ -7,8 +7,8 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from webapp.bootstrap import ensure_project_on_path, load_app_styles
-from webapp.components.charts import horizontal_bar_chart, line_chart
+from webapp.bootstrap import ensure_project_on_path
+from webapp.components.charts import horizontal_bar_chart, line_chart, render_chart
 from webapp.components.kpi_cards import (
     render_dashboard_hero,
     render_insight,
@@ -19,15 +19,10 @@ from webapp.components.kpi_cards import (
 from webapp.utils.filters import sidebar_filters
 from webapp.utils.formatters import money
 from webapp.utils.loaders import load_all_data
-
-
-def show_chart(fig, x_title: str, y_title: str) -> None:
-    fig.update_xaxes(title=x_title)
-    fig.update_yaxes(title=y_title)
-    st.plotly_chart(fig, use_container_width=True)
+from webapp.utils.theme import apply_theme
 
 ensure_project_on_path()
-load_app_styles()
+apply_theme()
 
 data = load_all_data()
 orders = sidebar_filters(data["orders"]).copy()
@@ -87,13 +82,13 @@ with st.container():
     )
     col1, col2 = st.columns(2)
     with col1:
-        show_chart(
+        render_chart(
             line_chart(monthly, "year_month", "sales", "Monthly Sales Trend"),
             "Month",
             "Sales",
         )
     with col2:
-        show_chart(
+        render_chart(
             line_chart(monthly, "year_month", "profit", "Monthly Profit Trend"),
             "Month",
             "Profit",
@@ -108,7 +103,7 @@ with st.container():
     )
     col3, col4 = st.columns(2)
     with col3:
-        show_chart(
+        render_chart(
             horizontal_bar_chart(
                 region_summary.sort_values("sales", ascending=True),
                 "sales",
@@ -120,7 +115,7 @@ with st.container():
             "Region",
         )
     with col4:
-        show_chart(
+        render_chart(
             horizontal_bar_chart(
                 segment_summary.sort_values("sales", ascending=True),
                 "sales",

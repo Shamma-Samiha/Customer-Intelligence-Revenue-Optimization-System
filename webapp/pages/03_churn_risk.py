@@ -8,8 +8,8 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from webapp.bootstrap import ensure_project_on_path, load_app_styles
-from webapp.components.charts import bar_chart, horizontal_bar_chart, histogram_chart
+from webapp.bootstrap import ensure_project_on_path
+from webapp.components.charts import bar_chart, horizontal_bar_chart, histogram_chart, render_chart
 from webapp.components.kpi_cards import (
     render_dashboard_hero,
     render_info_card,
@@ -21,16 +21,11 @@ from webapp.components.kpi_cards import (
 from webapp.components.tables import show_table
 from webapp.utils.formatters import compact_number, days, pct
 from webapp.utils.loaders import load_all_data
-
-
-def show_chart(fig, x_title: str, y_title: str) -> None:
-    fig.update_xaxes(title=x_title)
-    fig.update_yaxes(title=y_title)
-    st.plotly_chart(fig, use_container_width=True)
+from webapp.utils.theme import apply_theme
 
 
 ensure_project_on_path()
-load_app_styles()
+apply_theme()
 
 data = load_all_data()
 churn = data["churn"].copy()
@@ -128,13 +123,13 @@ render_section_header(
 
 col1, col2 = st.columns(2)
 with col1:
-    show_chart(
+    render_chart(
         histogram_chart(churn, "churn_probability", title="Churn Probability Distribution", nbins=24),
         "Churn Probability",
         "Customers",
     )
 with col2:
-    show_chart(
+    render_chart(
         horizontal_bar_chart(
             risk_bands.sort_values("customers", ascending=True),
             "customers",
@@ -148,7 +143,7 @@ with col2:
 
 col3, col4 = st.columns(2)
 with col3:
-    show_chart(
+    render_chart(
         bar_chart(driver_strength, "feature", "strength", title="Feature Importance Signals"),
         "Feature",
         "Correlation Strength",

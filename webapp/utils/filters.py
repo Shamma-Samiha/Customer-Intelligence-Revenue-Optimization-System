@@ -7,6 +7,9 @@ import streamlit as st
 def sidebar_filters(orders: pd.DataFrame) -> pd.DataFrame:
     filtered = orders.copy()
 
+    st.sidebar.markdown("## Filters")
+    st.sidebar.caption("Refine the current view without leaving the page.")
+
     if "order_year" in filtered.columns:
         years = sorted(filtered["order_year"].dropna().unique().tolist())
         selected_years = st.sidebar.multiselect("Order Year", years, default=years)

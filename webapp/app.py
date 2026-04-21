@@ -7,7 +7,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from webapp.bootstrap import ensure_project_on_path, load_app_styles
+from webapp.bootstrap import ensure_project_on_path
 from webapp.components.kpi_cards import (
     render_dashboard_hero,
     render_info_card,
@@ -16,6 +16,7 @@ from webapp.components.kpi_cards import (
     render_section_header,
 )
 from webapp.utils.loaders import validate_app_data
+from webapp.utils.theme import apply_theme
 
 
 project_root = ensure_project_on_path()
@@ -27,7 +28,7 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-load_app_styles()
+apply_theme()
 
 render_dashboard_hero(
     "Analytics Portfolio Project",
@@ -40,6 +41,10 @@ render_dashboard_hero(
     ],
 )
 
+st.sidebar.markdown("## Navigation")
+st.sidebar.caption("Use the pages below to move through the analytics story.")
+st.sidebar.success(f"Deployment root: `{project_root.name}`")
+
 missing = validate_app_data()
 if missing:
     st.error(
@@ -47,10 +52,6 @@ if missing:
         + ", ".join(missing)
         + ". Run `python scripts/run_pipeline.py` before launching or deploying the app."
     )
-
-st.sidebar.markdown("## Navigation")
-st.sidebar.caption("Use the pages below to move through the analytics story.")
-st.sidebar.success(f"Deployment root: `{project_root.name}`")
 
 render_section_header(
     "Platform Overview",

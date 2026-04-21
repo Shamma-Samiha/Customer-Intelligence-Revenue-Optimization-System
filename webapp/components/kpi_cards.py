@@ -78,9 +78,9 @@ def render_section_header(title: str, subtitle: str) -> None:
 def render_info_card(title: str, text: str) -> None:
     st.markdown(
         f'''
-        <div class="section-card" style="padding-bottom:1.2rem;">
-            <div class="section-header" style="font-size:1.15rem; margin-top:0;">{title}</div>
-            <div class="section-subtitle" style="margin-bottom:0;">{text}</div>
+        <div class="section-card info-card">
+            <div class="section-header info-card-title">{title}</div>
+            <div class="section-subtitle info-card-text">{text}</div>
         </div>
         ''',
         unsafe_allow_html=True,

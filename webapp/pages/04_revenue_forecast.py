@@ -9,8 +9,8 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from webapp.bootstrap import ensure_project_on_path, load_app_styles
-from webapp.components.charts import area_line_chart, forecast_chart
+from webapp.bootstrap import ensure_project_on_path
+from webapp.components.charts import area_line_chart, forecast_chart, render_chart, style_figure
 from webapp.components.kpi_cards import (
     render_dashboard_hero,
     render_info_card,
@@ -22,16 +22,11 @@ from webapp.components.kpi_cards import (
 from webapp.components.tables import show_table
 from webapp.utils.formatters import compact_number, money, pct
 from webapp.utils.loaders import load_all_data
-
-
-def show_chart(fig, x_title: str, y_title: str) -> None:
-    fig.update_xaxes(title=x_title)
-    fig.update_yaxes(title=y_title)
-    st.plotly_chart(fig, use_container_width=True)
+from webapp.utils.theme import apply_theme, get_theme_tokens
 
 
 ensure_project_on_path()
-load_app_styles()
+apply_theme()
 
 data = load_all_data()
 forecast = data["forecast"].copy().sort_values("ds")
@@ -111,30 +106,26 @@ render_section_header(
 
 col1, col2 = st.columns(2)
 with col1:
-    show_chart(forecast_chart(forecast, "Historical vs Forecast Revenue"), "Date", "Revenue")
+    render_chart(forecast_chart(forecast, "Historical vs Forecast Revenue"), "Date", "Revenue")
 with col2:
+    theme = get_theme_tokens()
     forecast_mix = px.line(
         history_vs_forecast,
         x="ds",
         y="yhat",
         color="series",
         title="Historical vs Forecast Trend",
-        color_discrete_map={"Historical": "#0f766e", "Forecast": "#1d4ed8"},
-    )
-    forecast_mix.update_layout(
-        legend=dict(orientation="h", x=0, y=1.05),
-        margin=dict(l=16, r=16, t=64, b=16),
-        paper_bgcolor="rgba(255,255,255,0)",
-        plot_bgcolor="rgba(255,255,255,0)",
-        font=dict(family="Inter, Segoe UI, sans-serif", color="#0f172a"),
-        title_font=dict(size=24, color="#0f172a"),
+        color_discrete_map={
+            "Historical": str(theme["accent"]),
+            "Forecast": str(theme["accent_tertiary"]),
+        },
     )
     forecast_mix.update_traces(mode="lines", line=dict(width=3))
-    show_chart(forecast_mix, "Date", "Revenue")
+    render_chart(style_figure(forecast_mix, "Historical vs Forecast Trend"), "Date", "Revenue")
 
 col3, col4 = st.columns(2)
 with col3:
-    show_chart(
+    render_chart(
         area_line_chart(weekly_summary, "week", "yhat", "Weekly Forecasted Revenue"),
         "Week",
         "Forecast Revenue",
@@ -146,7 +137,7 @@ with col4:
             "Historical monthly data is not available in the current forecast extract, so the page centers on the future revenue path and planning horizon instead.",
         )
     else:
-        show_chart(
+        render_chart(
             area_line_chart(monthly_summary, "month", "yhat", "Recent Historical Revenue"),
             "Month",
             "Revenue",

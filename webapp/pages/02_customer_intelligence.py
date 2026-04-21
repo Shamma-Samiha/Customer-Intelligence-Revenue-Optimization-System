@@ -7,8 +7,8 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from webapp.bootstrap import ensure_project_on_path, load_app_styles
-from webapp.components.charts import donut_chart, horizontal_bar_chart, scatter_chart
+from webapp.bootstrap import ensure_project_on_path
+from webapp.components.charts import donut_chart, horizontal_bar_chart, render_chart, scatter_chart
 from webapp.components.kpi_cards import (
     render_dashboard_hero,
     render_info_card,
@@ -20,16 +20,11 @@ from webapp.components.kpi_cards import (
 from webapp.components.tables import show_table
 from webapp.utils.formatters import compact_number, days, money
 from webapp.utils.loaders import load_all_data
-
-
-def show_chart(fig, x_title: str, y_title: str) -> None:
-    fig.update_xaxes(title=x_title)
-    fig.update_yaxes(title=y_title)
-    st.plotly_chart(fig, use_container_width=True)
+from webapp.utils.theme import apply_theme
 
 
 ensure_project_on_path()
-load_app_styles()
+apply_theme()
 
 data = load_all_data()
 rfm = data["rfm"].copy()
@@ -89,7 +84,7 @@ render_section_header(
 
 col1, col2 = st.columns(2)
 with col1:
-    show_chart(
+    render_chart(
         horizontal_bar_chart(
             segment_summary.sort_values("customers", ascending=True),
             "customers",
@@ -101,7 +96,7 @@ with col1:
         "Segment",
     )
 with col2:
-    show_chart(
+    render_chart(
         donut_chart(segment_summary, "rfm_segment", "revenue", "Revenue Share by Segment"),
         "",
         "",
@@ -109,7 +104,7 @@ with col2:
 
 col3, col4 = st.columns(2)
 with col3:
-    show_chart(
+    render_chart(
         scatter_chart(
             rfm,
             "recency",
@@ -121,7 +116,7 @@ with col3:
         "Revenue",
     )
 with col4:
-    show_chart(
+    render_chart(
         scatter_chart(
             rfm,
             "frequency",
