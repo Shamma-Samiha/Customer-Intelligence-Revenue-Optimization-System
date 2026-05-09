@@ -57,6 +57,7 @@ def style_figure(fig, title: str):
             font_color=str(theme["text_primary"]),
             bordercolor=str(theme["border"]),
         ),
+        hovermode="x unified",
     )
     fig.update_xaxes(
         showgrid=False,
@@ -78,15 +79,34 @@ def style_figure(fig, title: str):
 
 
 def bar_chart(data, x, y, color=None, title=""):
-    fig = px.bar(data, x=x, y=y, color=color or x, title=title, text_auto=".2s")
-    fig.update_traces(marker_line_width=0, opacity=0.94)
+    theme = get_theme_tokens()
+    fig = px.bar(
+        data,
+        x=x,
+        y=y,
+        color=color or x,
+        title=title,
+        text_auto=".2s",
+        color_discrete_sequence=list(theme["colorway"]),
+    )
+    fig.update_traces(marker_line_width=1, marker_line_color="rgba(255,255,255,0.22)", opacity=0.92)
     fig.update_layout(showlegend=False)
     return style_figure(fig, title)
 
 
 def horizontal_bar_chart(data, x, y, color=None, title=""):
-    fig = px.bar(data, x=x, y=y, color=color or y, orientation="h", title=title, text_auto=".2s")
-    fig.update_traces(marker_line_width=0, opacity=0.95)
+    theme = get_theme_tokens()
+    fig = px.bar(
+        data,
+        x=x,
+        y=y,
+        color=color or y,
+        orientation="h",
+        title=title,
+        text_auto=".2s",
+        color_discrete_sequence=list(theme["colorway"]),
+    )
+    fig.update_traces(marker_line_width=1, marker_line_color="rgba(255,255,255,0.22)", opacity=0.92)
     fig.update_layout(showlegend=False)
     return style_figure(fig, title)
 
@@ -94,7 +114,11 @@ def horizontal_bar_chart(data, x, y, color=None, title=""):
 def line_chart(data, x, y, title=""):
     theme = get_theme_tokens()
     fig = px.line(data, x=x, y=y, title=title)
-    fig.update_traces(line=dict(width=3, color=str(theme["accent_tertiary"])))
+    fig.update_traces(
+        mode="lines+markers",
+        line=dict(width=3.5, color=str(theme["accent_tertiary"])),
+        marker=dict(size=6, color=str(theme["accent_secondary"]), line=dict(width=2, color=str(theme["chart_background"]))),
+    )
     return style_figure(fig, title)
 
 
@@ -102,25 +126,49 @@ def area_line_chart(data, x, y, title="", color=None):
     theme = get_theme_tokens()
     area_color = color or str(theme["accent"])
     fig = px.area(data, x=x, y=y, title=title)
-    fill_color = "rgba(15,118,110,0.14)" if get_theme_tokens()["mode"] == "light" else "rgba(45,212,191,0.18)"
+    fill_color = str(theme["chart_area_fill"])
     fig.update_traces(line=dict(width=3, color=area_color), fillcolor=fill_color)
     return style_figure(fig, title)
 
 
 def scatter_chart(data, x, y, color=None, title=""):
-    fig = px.scatter(data, x=x, y=y, color=color, title=title)
-    fig.update_traces(marker=dict(size=10, opacity=0.66, line=dict(width=0)))
+    theme = get_theme_tokens()
+    fig = px.scatter(data, x=x, y=y, color=color, title=title, color_discrete_sequence=list(theme["colorway"]))
+    fig.update_traces(marker=dict(size=10, opacity=0.72, line=dict(width=1, color="rgba(255,255,255,0.28)")))
     return style_figure(fig, title)
 
 
 def histogram_chart(data, x, color=None, title="", nbins=30):
-    fig = px.histogram(data, x=x, color=color, nbins=nbins, title=title, opacity=0.9)
+    theme = get_theme_tokens()
+    fig = px.histogram(
+        data,
+        x=x,
+        color=color,
+        nbins=nbins,
+        title=title,
+        opacity=0.88,
+        color_discrete_sequence=list(theme["colorway"]),
+    )
+    fig.update_traces(marker_line_width=1, marker_line_color="rgba(255,255,255,0.18)")
     return style_figure(fig, title)
 
 
 def donut_chart(data, names, values, title=""):
-    fig = px.pie(data, names=names, values=values, hole=0.58, title=title)
-    fig.update_traces(textposition="inside", textinfo="percent+label", insidetextorientation="radial")
+    theme = get_theme_tokens()
+    fig = px.pie(
+        data,
+        names=names,
+        values=values,
+        hole=0.58,
+        title=title,
+        color_discrete_sequence=list(theme["colorway"]),
+    )
+    fig.update_traces(
+        textposition="inside",
+        textinfo="percent+label",
+        insidetextorientation="radial",
+        marker=dict(line=dict(color=str(theme["chart_background"]), width=2)),
+    )
     fig.update_layout(showlegend=False, margin=dict(l=16, r=16, t=84, b=16))
     return style_figure(fig, title)
 
@@ -134,7 +182,7 @@ def forecast_chart(data, title="Forecasted Revenue"):
             y=data["yhat"],
             mode="lines",
             name="Forecast",
-            line=dict(color=str(theme["accent_tertiary"]), width=3),
+            line=dict(color=str(theme["accent_tertiary"]), width=3.5),
         )
     )
     if {"yhat_lower", "yhat_upper"}.issubset(data.columns):
@@ -157,7 +205,7 @@ def forecast_chart(data, title="Forecasted Revenue"):
                 line=dict(width=0),
                 name="Confidence Band",
                 hoverinfo="skip",
-                fillcolor="rgba(14,165,233,0.16)" if theme["mode"] == "light" else "rgba(56,189,248,0.18)",
+                fillcolor=str(theme["chart_forecast_band"]),
             )
         )
     return style_figure(fig, title)

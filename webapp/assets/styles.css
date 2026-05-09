@@ -16,10 +16,10 @@ html[data-theme="light"] {
     --text-muted: #718194;
     --sidebar-text: #e2e8f0;
     --sidebar-text-muted: rgba(226,232,240,0.72);
-    --accent: #0f766e;
-    --accent-secondary: #0a8fb2;
-    --accent-tertiary: #2958d8;
-    --accent-amber: #f59e0b;
+    --accent: #0d9488;
+    --accent-secondary: #0284c7;
+    --accent-tertiary: #4f46e5;
+    --accent-amber: #d97706;
     --accent-rose: #e11d48;
     --border: rgba(141,156,175,0.26);
     --border-strong: rgba(118,138,163,0.38);
@@ -30,8 +30,8 @@ html[data-theme="light"] {
     --hero-badge-bg: rgba(255,255,255,0.12);
     --hero-badge-border: rgba(255,255,255,0.16);
     --hero-glow: rgba(255,255,255,0.22);
-    --chart-grid: rgba(133,151,174,0.18);
-    --chart-shell: rgba(255,255,255,0.44);
+    --chart-grid: rgba(104,121,145,0.14);
+    --chart-shell: rgba(255,255,255,0.58);
     --font-family: "Source Sans 3", "Segoe UI", sans-serif;
     --heading-family: "Manrope", "Segoe UI", sans-serif;
 }
@@ -52,9 +52,9 @@ html[data-theme="dark"] {
     --text-muted: #8ea3b7;
     --sidebar-text: #eef5fb;
     --sidebar-text-muted: rgba(238,245,251,0.7);
-    --accent: #29c7b3;
-    --accent-secondary: #34b6e5;
-    --accent-tertiary: #71a8ff;
+    --accent: #5eead4;
+    --accent-secondary: #38bdf8;
+    --accent-tertiary: #a5b4fc;
     --accent-amber: #fbbf24;
     --accent-rose: #fb7185;
     --border: rgba(128,149,171,0.2);
@@ -66,8 +66,8 @@ html[data-theme="dark"] {
     --hero-badge-bg: rgba(235,243,251,0.06);
     --hero-badge-border: rgba(193,210,226,0.14);
     --hero-glow: rgba(52,182,229,0.16);
-    --chart-grid: rgba(142,163,186,0.14);
-    --chart-shell: rgba(11,24,37,0.56);
+    --chart-grid: rgba(158,181,205,0.12);
+    --chart-shell: rgba(11,24,37,0.64);
 }
 
 .stApp {
