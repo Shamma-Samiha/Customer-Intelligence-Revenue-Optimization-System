@@ -29,7 +29,25 @@ apply_theme()
 
 data = load_all_data()
 churn = data["churn"].copy()
-high_risk_mask = churn["predicted_churn_risk"] == 1
+
+st.sidebar.markdown("## Risk Controls")
+if st.sidebar.button("Reset risk view", use_container_width=True):
+    st.session_state["risk_threshold"] = 0.60
+    st.session_state["risk_min_value"] = 0
+    st.session_state["risk_top_n"] = 15
+risk_threshold = st.sidebar.slider("High-risk threshold", 0.10, 0.95, 0.60, 0.05, key="risk_threshold")
+min_customer_value = st.sidebar.slider(
+    "Minimum revenue at risk",
+    0,
+    int(churn["monetary"].max()),
+    0,
+    step=max(1, int(churn["monetary"].max() / 100)),
+    key="risk_min_value",
+)
+top_n = st.sidebar.slider("Customers to review", 5, 40, 15, key="risk_top_n")
+
+churn = churn[churn["monetary"] >= min_customer_value].copy()
+high_risk_mask = churn["churn_probability"] >= risk_threshold
 high_risk_count = int(high_risk_mask.sum())
 churn_rate = high_risk_count / len(churn) if len(churn) else 0
 
@@ -82,7 +100,7 @@ driver_strength["feature"] = driver_strength["feature"].str.replace("_", " ").st
 
 high_risk = (
     churn.sort_values("churn_probability", ascending=False)
-    .head(15)[["customer_name", "recency", "frequency", "monetary", "churn_probability"]]
+    .head(top_n)[["customer_name", "recency", "frequency", "monetary", "churn_probability"]]
     .rename(
         columns={
             "customer_name": "Customer",
@@ -97,7 +115,7 @@ high_risk = (
 render_dashboard_hero(
     "Retention Risk Monitoring",
     "Churn Risk",
-    "A business-ready early warning dashboard that surfaces how broad the risk pool is, where risk is concentrated, and which customers deserve immediate retention attention.",
+    "Find customers with higher churn risk and decide who needs attention first.",
     badges=[
         f"High-Risk Base: {high_risk_count:,}",
         f"Average Risk: {pct(churn['churn_probability'].mean())}",
@@ -118,7 +136,7 @@ render_page_spacer(0.9)
 
 render_section_header(
     "Risk Distribution",
-    "Read this page as a retention prioritization view: how much of the base is drifting, how severe the current risk mix is, and which signals align most strongly with churn probability.",
+    "Review how risk is spread across the customer base and which behavior signals move with churn probability.",
 )
 
 col1, col2 = st.columns(2)
@@ -151,37 +169,37 @@ with col3:
 with col4:
     render_info_card(
         "Business Recommendation",
-        "Critical-risk customers should move into immediate outreach, moderate-risk customers should be handled with automated nurture or offer-based recovery, and the low-risk base should stay in efficiency-focused lifecycle programs.",
+        "Start with critical-risk customers, use lighter recovery campaigns for moderate risk, and keep low-risk customers in regular lifecycle programs.",
     )
     render_info_card(
         "Operational Focus",
-        "Use this dashboard to allocate retention resources toward recent deterioration patterns instead of spreading the same attention budget across the entire customer portfolio.",
+        "Spend retention time where risk and customer value overlap, instead of reviewing the whole base the same way.",
     )
 
 render_page_spacer(0.55)
 
 render_section_header(
     "Decision Support",
-    "The strongest retention dashboards do more than list risky accounts. They connect severity, drivers, and action so the commercial team knows what to do next.",
+    "Pair the risk score with revenue and behavior so the next action is obvious.",
 )
 
 insight_col1, insight_col2, insight_col3 = st.columns(3)
 with insight_col1:
     render_insight(
         "What To Notice",
-        f"{compact_number(high_risk_count)} customers are already flagged as high risk, which makes the current churn pool material enough to justify a targeted retention workflow instead of ad hoc review.",
+        f"{compact_number(high_risk_count)} customers are above the selected risk threshold in this view.",
         tone="rose",
     )
 with insight_col2:
     render_insight(
         "Business Insight",
-        "The driver chart shows which behavioral signals move most closely with risk probability, helping frame whether churn is mainly an inactivity issue, a value decline issue, or a margin-quality issue.",
+        "The driver chart helps separate inactivity, lower value, and margin issues instead of treating every risk score as the same problem.",
         tone="blue",
     )
 with insight_col3:
     render_insight(
         "Decision Angle",
-        "Prioritize accounts with both high churn probability and meaningful revenue contribution first, because those customers represent the fastest path to protecting future revenue.",
+        "Review high-risk, high-revenue customers first. That is where a save attempt can protect the most future revenue.",
         tone="teal",
     )
 

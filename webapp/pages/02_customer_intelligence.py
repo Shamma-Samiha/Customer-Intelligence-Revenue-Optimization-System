@@ -29,6 +29,24 @@ apply_theme()
 data = load_all_data()
 rfm = data["rfm"].copy()
 
+st.sidebar.markdown("## Customer Controls")
+segments = sorted(rfm["rfm_segment"].dropna().unique().tolist())
+if st.sidebar.button("Reset customer view", use_container_width=True):
+    st.session_state["customer_segments"] = segments
+    st.session_state["customer_min_revenue"] = 0
+    st.session_state["customer_top_n"] = 12
+selected_segments = st.sidebar.multiselect("RFM Segment", segments, default=segments, key="customer_segments")
+min_revenue = st.sidebar.slider(
+    "Minimum customer revenue",
+    0,
+    int(rfm["monetary"].max()),
+    0,
+    step=max(1, int(rfm["monetary"].max() / 100)),
+    key="customer_min_revenue",
+)
+top_n = st.sidebar.slider("Customers to show", 5, 30, 12, key="customer_top_n")
+rfm = rfm[rfm["rfm_segment"].isin(selected_segments) & (rfm["monetary"] >= min_revenue)].copy()
+
 segment_summary = (
     rfm.groupby("rfm_segment", as_index=False)
     .agg(
@@ -41,7 +59,7 @@ segment_summary = (
 )
 top_segment = segment_summary.iloc[0]["rfm_segment"] if not segment_summary.empty else "N/A"
 top_customers = (
-    rfm.nlargest(12, "monetary")[
+    rfm.nlargest(top_n, "monetary")[
         ["customer_name", "rfm_segment", "recency", "frequency", "monetary"]
     ]
     .rename(
@@ -58,7 +76,7 @@ top_customers = (
 render_dashboard_hero(
     "Customer Value Lens",
     "Customer Intelligence",
-    "A structured view of customer quality and value concentration, turning RFM outputs into a cleaner commercial dashboard for targeting, retention, and account prioritization.",
+    "See which customers buy often, spend the most, and may need a different follow-up plan.",
     badges=[
         f"Top Segment: {top_segment}",
         f"Customer Base: {rfm['customer_id'].nunique():,}",
@@ -79,7 +97,7 @@ render_page_spacer(0.9)
 
 render_section_header(
     "Customer Portfolio Snapshot",
-    "Use this section to understand how customer value is distributed, which segments dominate revenue, and where recent engagement is strongest.",
+    "A quick look at customer value: who makes up the base, who brings in revenue, and who has been active recently.",
 )
 
 col1, col2 = st.columns(2)
@@ -132,26 +150,26 @@ render_page_spacer(0.6)
 
 render_section_header(
     "Interpretation Layer",
-    "The analytics are most useful when they help a stakeholder decide where to defend value, where to reactivate relationships, and where to keep premium service levels high.",
+    "Use these notes to turn the segment mix into outreach, retention, and account priority decisions.",
 )
 
 insight_col1, insight_col2, insight_col3 = st.columns(3)
 with insight_col1:
     render_insight(
         "What To Notice",
-        f"{top_segment} currently contributes the largest value pool, which means the strongest customer economics are concentrated rather than evenly spread across the portfolio.",
+        f"{top_segment} brings in the most revenue in this view, so a small group of customers is carrying a large share of value.",
         tone="blue",
     )
 with insight_col2:
     render_insight(
         "Business Insight",
-        "High-revenue customers with low recency should move into proactive outreach or loyalty campaigns before value concentration turns into avoidable attrition.",
+        "High-spend customers who have not ordered recently are worth a direct check-in before they drift further away.",
         tone="teal",
     )
 with insight_col3:
     render_insight(
         "Decision Angle",
-        "Use the RFM mix to separate premium account management from reactivation workflows instead of treating every customer with the same sales or retention motion.",
+        "Treat loyal buyers, at-risk customers, and occasional shoppers differently instead of sending the same campaign to everyone.",
         tone="blue",
     )
 
@@ -163,9 +181,9 @@ with detail_col1:
 with detail_col2:
     render_info_card(
         "Top Segment Readout",
-        f"{top_segment} leads the portfolio on aggregated revenue. That makes it the clearest segment to protect with differentiated service, upsell design, and retention monitoring.",
+        f"{top_segment} is the biggest revenue segment after filtering. Keep this group visible when planning service, offers, and retention work.",
     )
     render_info_card(
         "Coverage Signal",
-        f"The dataset currently tracks {compact_number(rfm['customer_id'].nunique())} customers, making this page a strong summary of both scale and value density in the customer base.",
+        f"This view includes {compact_number(rfm['customer_id'].nunique())} customers after filtering.",
     )

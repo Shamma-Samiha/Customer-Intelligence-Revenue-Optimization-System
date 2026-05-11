@@ -46,6 +46,22 @@ def render_dashboard_hero(eyebrow: str, title: str, subtitle: str, badges: list[
     )
 
 
+def render_action_grid(actions: list[tuple[str, str, str]]) -> None:
+    cols = st.columns(len(actions))
+    for col, (title, description, page_path) in zip(cols, actions):
+        with col:
+            st.markdown(
+                f'''
+                <div class="action-card">
+                    <div class="action-title">{title}</div>
+                    <div class="action-text">{description}</div>
+                </div>
+                ''',
+                unsafe_allow_html=True,
+            )
+            st.page_link(page_path, label=f"Open {title}", use_container_width=True)
+
+
 def render_page_intro(eyebrow: str, title: str, subtitle: str) -> None:
     st.markdown(
         f'''

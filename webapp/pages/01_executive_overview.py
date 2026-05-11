@@ -55,7 +55,7 @@ top_segment = segment_summary.iloc[0]["segment"] if not segment_summary.empty el
 render_dashboard_hero(
     "Leadership Dashboard",
     "Executive Overview",
-    "A premium operating snapshot of revenue scale, profitability, regional concentration, and segment performance designed for fast business review and recruiter-ready storytelling.",
+    "A fast read on sales, profit, regions, and customer segments for the current filtered view.",
     badges=[
         f"Leading Region: {top_region}",
         f"Top Segment: {top_segment}",
@@ -78,7 +78,7 @@ render_page_spacer(1.05)
 with st.container():
     render_section_header(
         "Performance Momentum",
-        "Track how revenue and profit evolve over time to understand whether scale is translating into healthier business performance.",
+        "Check whether sales growth is also showing up in profit, month by month.",
     )
     col1, col2 = st.columns(2)
     with col1:
@@ -99,7 +99,7 @@ render_page_spacer(0.9)
 with st.container():
     render_section_header(
         "Commercial Mix",
-        "Compare where sales are concentrated geographically and which customer segments are driving the strongest share of revenue.",
+        "See which regions and customer segments are doing the most work for the business.",
     )
     col3, col4 = st.columns(2)
     with col3:
@@ -132,24 +132,24 @@ render_page_spacer(0.9)
 with st.container():
     render_section_header(
         "Executive Insight Panel",
-        "Use these short reads to connect the dashboard signals with commercial interpretation and decision-making.",
+        "Short notes for turning the numbers into the next business question.",
     )
     insight_col1, insight_col2, insight_col3 = st.columns(3)
     with insight_col1:
         render_insight(
             "What To Notice",
-            f"Revenue is led by {top_region}, while {top_segment} is the strongest segment in the current filtered view.",
+            f"{top_region} is the top region by revenue, and {top_segment} is the top customer segment after filtering.",
             tone="blue",
         )
     with insight_col2:
         render_insight(
             "Business Insight",
-            "The strongest executive read comes from comparing growth with profitability instead of treating top-line expansion as success on its own.",
+            "Sales growth matters most when profit moves with it. If the two split, pricing, discounting, or product mix may need a closer look.",
             tone="teal",
         )
     with insight_col3:
         render_insight(
             "Decision Angle",
-            "Use this page to decide where leadership attention should go next: scaling strong segments, fixing margin pressure, or rebalancing regional concentration.",
+            "This page points to the next review area: grow what is working, investigate margin pressure, or rebalance regional focus.",
             tone="blue",
         )

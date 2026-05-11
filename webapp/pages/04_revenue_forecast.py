@@ -44,6 +44,24 @@ if future.empty:
     future = forecast.tail(90).copy()
     history = forecast.iloc[:-len(future)].copy()
 
+st.sidebar.markdown("## Forecast Controls")
+max_horizon = max(14, len(future))
+if st.sidebar.button("Reset forecast view", use_container_width=True):
+    st.session_state["forecast_horizon"] = min(90, max_horizon)
+    st.session_state["forecast_history_months"] = 12
+selected_horizon = st.sidebar.slider(
+    "Forecast horizon",
+    14,
+    max_horizon,
+    min(90, max_horizon),
+    key="forecast_horizon",
+)
+show_history_months = st.sidebar.slider("History window", 3, 24, 12, key="forecast_history_months")
+
+future = future.head(selected_horizon).copy()
+history = history.tail(show_history_months * 30).copy()
+forecast = pd.concat([history, future], ignore_index=True)
+
 last_30_actual = history.tail(30)["yhat"].sum() if not history.empty else 0
 next_30_forecast = future.head(30)["yhat"].sum() if not future.empty else 0
 growth_rate = (next_30_forecast - last_30_actual) / last_30_actual if last_30_actual else 0
@@ -80,7 +98,7 @@ forecast_preview = (
 render_dashboard_hero(
     "Forward Planning Layer",
     "Revenue Forecast",
-    "A polished planning view that connects historical sales momentum with the projected revenue path ahead, making the forecast easier to use in budgeting and growth conversations.",
+    "Compare recent revenue with the forecast window and use it for planning targets.",
     badges=[
         f"Forecast Horizon: {len(future):,} days",
         f"Projected Revenue: {money(future['yhat'].sum())}",
@@ -101,7 +119,7 @@ render_page_spacer(0.9)
 
 render_section_header(
     "Performance Outlook",
-    "The goal here is to compare current momentum with the modeled path ahead, then highlight whether the next planning window points to acceleration, stabilization, or softer revenue expectations.",
+    "Compare recent history with the forecast to see whether the next window looks stronger, flat, or softer.",
 )
 
 col1, col2 = st.columns(2)
@@ -134,7 +152,7 @@ with col4:
     if monthly_summary.empty:
         render_info_card(
             "Trend Readout",
-            "Historical monthly data is not available in the current forecast extract, so the page centers on the future revenue path and planning horizon instead.",
+            "Monthly history is not available in this forecast file, so this view focuses on the future window.",
         )
     else:
         render_chart(
@@ -147,14 +165,14 @@ render_page_spacer(0.55)
 
 render_section_header(
     "Future Insights",
-    "A good forecast page should help a stakeholder talk about planning, not just prediction. These blocks turn the model output into practical decision signals.",
+    "Use the forecast as a planning guide, then compare it with actual revenue as new orders arrive.",
 )
 
 insight_col1, insight_col2, insight_col3 = st.columns(3)
 with insight_col1:
     render_insight(
         "What To Notice",
-        f"The current model projects {money(future['yhat'].sum())} across the forecast horizon, with the next 30-day window implying a {pct(growth_rate)} move versus the latest 30-day actual baseline.",
+        f"The model projects {money(future['yhat'].sum())} across the selected horizon. The next 30 days are {pct(growth_rate)} versus the latest 30-day actual baseline.",
         tone="blue",
     )
 with insight_col2:
@@ -166,7 +184,7 @@ with insight_col2:
 with insight_col3:
     render_insight(
         "Decision Angle",
-        "Use the forecast as a planning range for commercial targets, cash expectations, and operating readiness rather than treating it as a single guaranteed outcome.",
+        "Use the forecast as a planning range for targets, cash expectations, and staffing. Treat it as guidance, not a promise.",
         tone="blue",
     )
 
@@ -178,9 +196,9 @@ with detail_col1:
 with detail_col2:
     render_info_card(
         "Planning Recommendation",
-        "Track actual revenue against this forecast weekly. That cadence makes it easier to catch divergence early and update operating assumptions before they become budget problems.",
+        "Compare actual revenue with this forecast each week. If the gap widens, update the operating plan early.",
     )
     render_info_card(
         "Signal Quality",
-        "The confidence band gives leadership a better planning frame than a single point estimate, especially when discussing stretch targets or downside protection.",
+        "The confidence band shows the range around the forecast, which is more useful for planning than one exact number.",
     )

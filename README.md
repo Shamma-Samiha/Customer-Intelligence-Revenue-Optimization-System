@@ -118,7 +118,7 @@ The app presents the project as a polished business analytics product with:
 Entry point:
 
 ```bash
-streamlit run webapp/app.py
+streamlit run webapp/Customer_Intelligence_Hub.py
 ```
 
 ### Power BI Dashboard
@@ -142,12 +142,12 @@ streamlit run webapp/app.py
 ```bash
 pip install -r requirements.txt
 python scripts/run_pipeline.py
-streamlit run webapp/app.py
+streamlit run webapp/Customer_Intelligence_Hub.py
 ```
 
 ## Deployment
 
-This project is structured for Streamlit Community Cloud deployment using `webapp/app.py` as the entry point. The app uses repository-relative paths and cached CSV loading to stay deployment-safe.
+This project is structured for Streamlit Community Cloud deployment using `webapp/Customer_Intelligence_Hub.py` as the entry point. The app uses repository-relative paths and cached CSV loading to stay deployment-safe.
 
 ## Business Impact
 

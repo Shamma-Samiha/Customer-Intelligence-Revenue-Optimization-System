@@ -25,7 +25,7 @@ apply_theme()
 render_dashboard_hero(
     "Project Architecture",
     "Project Methodology",
-    "A cleaner explanation of how the product moves from raw retail data to executive reporting, customer intelligence, churn scoring, and revenue forecasting.",
+    "How the project moves from raw retail data to dashboard pages, customer scoring, churn risk, and forecasting.",
     badges=[
         "Data Pipeline to Dashboard",
         "Reusable Analytics Workflow",
@@ -46,56 +46,56 @@ render_page_spacer(0.9)
 
 render_section_header(
     "Methodology Overview",
-    "This page translates the build process into a recruiter-ready delivery story: data pipeline, modeling approach, and the tools that made the product deployable and business-facing.",
+    "A plain-English look at the pipeline, modeling choices, and app structure behind the dashboard.",
 )
 
 col1, col2 = st.columns(2)
 with col1:
     render_info_card(
         "Data Pipeline",
-        "The workflow starts with raw retail transactions, then moves through validation, cleaning, feature engineering, and export-ready structured datasets. That foundation supports both analysis notebooks and production-style app delivery.",
+        "The workflow starts with retail transactions, cleans and validates them, then exports datasets used by both notebooks and the Streamlit app.",
     )
 with col2:
     render_info_card(
         "Modeling",
-        "The analytics layer combines exploratory analysis, RFM segmentation, proxy churn-risk scoring, and 90-day revenue forecasting. Each model adds a distinct decision-support angle rather than repeating the same business story.",
+        "The project uses exploratory analysis, RFM segmentation, churn-risk scoring, and revenue forecasting. Each piece answers a different business question.",
     )
 
 col3, col4 = st.columns(2)
 with col3:
     render_info_card(
         "Tools Used",
-        "Python, pandas, Plotly, Streamlit, and supporting notebook workflows were used to build a full-stack analytics artifact that can be demonstrated as both a technical and stakeholder-facing project.",
+        "The app is built with Python, pandas, Plotly, Streamlit, and notebooks for the analysis workflow.",
     )
 with col4:
     render_info_card(
         "Delivery Output",
-        "The final result is organized into reusable scripts, processed outputs, dashboard pages, and deployable app structure so the work reads like a product build instead of a one-off notebook analysis.",
+        "The repo keeps scripts, processed outputs, dashboard pages, and documentation in separate places so the work is easier to review and rerun.",
     )
 
 render_page_spacer(0.55)
 
 render_section_header(
     "Why The Workflow Matters",
-    "Strong portfolio projects show clear thinking about architecture and communication, not only charts and model output. These narrative cards make that structure visible.",
+    "The structure matters because it shows how the analysis can be rerun, explained, and used in a dashboard.",
 )
 
 insight_col1, insight_col2, insight_col3 = st.columns(3)
 with insight_col1:
     render_insight(
         "What To Notice",
-        "The project separates ingestion, transformation, modeling, and presentation layers. That separation improves maintainability and makes the methodology easier to explain in interviews or demos.",
+        "Data loading, transformation, modeling, and presentation are kept separate. That makes the project easier to maintain and explain.",
         tone="blue",
     )
 with insight_col2:
     render_insight(
         "Business Insight",
-        "Each analytic step is tied to a real business decision: customer prioritization, churn prevention, executive performance tracking, or forward planning.",
+        "Each analytic step maps to a business use case: customer priority, churn prevention, performance tracking, or revenue planning.",
         tone="teal",
     )
 with insight_col3:
     render_insight(
         "Decision Angle",
-        "Recruiters and hiring managers can read this workflow as evidence of end-to-end ownership, from data engineering discipline through polished stakeholder delivery.",
+        "The page shows both technical workflow and business delivery, which makes the project easier to discuss in a review.",
         tone="blue",
     )

@@ -58,6 +58,7 @@ def style_figure(fig, title: str):
             bordercolor=str(theme["border"]),
         ),
         hovermode="x unified",
+        transition=dict(duration=450, easing="cubic-in-out"),
     )
     fig.update_xaxes(
         showgrid=False,
@@ -212,8 +213,22 @@ def forecast_chart(data, title="Forecasted Revenue"):
 
 
 def render_chart(fig, x_title: str = "", y_title: str = "") -> None:
+    chart_title = fig.layout.title.text or ""
+    if chart_title:
+        st.markdown(f'<div class="chart-heading">{chart_title}</div>', unsafe_allow_html=True)
+        fig.update_layout(title=dict(text=""), margin=dict(t=26))
     if x_title:
         fig.update_xaxes(title=x_title)
     if y_title:
         fig.update_yaxes(title=y_title)
-    st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+    st.plotly_chart(
+        fig,
+        use_container_width=True,
+        config={
+            "displayModeBar": "hover",
+            "displaylogo": False,
+            "scrollZoom": True,
+            "responsive": True,
+            "modeBarButtonsToRemove": ["lasso2d", "select2d"],
+        },
+    )
