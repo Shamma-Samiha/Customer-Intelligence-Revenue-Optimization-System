@@ -1,117 +1,94 @@
-# Power BI Dashboard Specification
+# Dashboard Specification
 
 ## Dashboard Title
+
 Customer Intelligence & Revenue Forecasting System
 
-## Subtitle
-From retail transactions to customer strategy, churn-risk monitoring, and revenue planning
+## Dashboard Purpose
 
-## Recommended Data Model
+Give business users a clear view of sales performance, customer value, churn risk, and revenue outlook from a single retail dataset.
+
+## Streamlit Website Pages
+
+### 1. Executive Overview
+
+Purpose: Give a fast operating snapshot of sales, profit, order volume, region performance, and segment mix.
+
+Key elements:
+- KPI cards for sales, profit, average order value, and profit margin
+- Monthly sales and profit trends
+- Sales by region
+- Sales by customer segment
+- Sidebar filters for year, market, and region
+
+### 2. Customer Intelligence
+
+Purpose: Show which customers and RFM segments create the most value.
+
+Key elements:
+- Total customers, average revenue, top segment, and average recency
+- RFM segment distribution
+- Revenue share by segment
+- Recency vs revenue scatter plot
+- Frequency vs revenue scatter plot
+- Highest-value customer table with CSV export
+- Sidebar controls for segment, minimum revenue, and number of customers shown
+
+### 3. Churn Risk
+
+Purpose: Help users prioritize customers who may need retention outreach.
+
+Key elements:
+- Churn rate, high-risk customer count, average risk, and average recency
+- Churn probability distribution
+- Customers by risk band
+- Feature importance signals
+- Highest-risk customer table with CSV export
+- Sidebar controls for risk threshold, minimum revenue at risk, and review count
+
+### 4. Revenue Forecast
+
+Purpose: Compare recent revenue history with the forecast window for planning.
+
+Key elements:
+- Forecasted revenue, growth rate, horizon length, and peak forecast day
+- Historical vs forecast revenue
+- Forecast trend
+- Weekly forecasted revenue
+- Recent historical revenue
+- Forecast preview table with CSV export
+- Sidebar controls for forecast horizon and history window
+
+## Power BI Model Recommendation
 
 ### Fact Tables
+
 - `cleaned_orders`
 - `revenue_forecast`
 
 ### Analytical Support Tables
+
 - `rfm_table`
 - `churn_predictions`
 
 ### Dimensions
+
 - `dim_date`
 - `dim_customer`
 - `dim_product`
 - `dim_geography`
 
-## Relationships
+## Relationship Guidance
 
-- `cleaned_orders[order_date]` many-to-one -> `dim_date[date]`
-- `revenue_forecast[ds]` many-to-one -> `dim_date[date]`
-- `cleaned_orders[customer_id]` many-to-one -> `dim_customer[customer_id]`
-- `rfm_table[customer_id]` many-to-one -> `dim_customer[customer_id]`
-- `churn_predictions[customer_id]` many-to-one -> `dim_customer[customer_id]`
-- `cleaned_orders[product_id]` many-to-one -> `dim_product[product_id]`
-- `cleaned_orders[region/state/country]` many-to-one -> `dim_geography`
+- Use one-to-many relationships from dimensions to fact tables.
+- Keep filter direction single unless a drill-through requirement needs otherwise.
+- Connect customer-level analytical tables through `customer_id`.
+- Connect forecast data to the date dimension through `ds`.
 
-Keep relationship direction single from dimensions to facts. Avoid bidirectional filtering unless a drill-through use case truly requires it.
+## Visual Design Guidance
 
-## Page 1: Executive Overview
-Purpose: Give leadership a fast read on performance, margin quality, and forward-looking revenue.
-
-Visuals:
-- KPI cards: Total Sales, Total Profit, Profit Margin %, Total Orders, Total Customers, Avg Order Value
-- Monthly sales trend line
-- Monthly profit trend line
-- Revenue forecast chart with upper/lower band
-- Sales by region bar chart
-- Revenue by segment stacked bar
-
-Slicers:
-- Order Year
-- Market
-- Region
-- Customer Segment
-
-## Page 2: Customer Intelligence
-Purpose: Show how customer value is distributed and where retention effort should concentrate.
-
-Visuals:
-- Customer count by RFM segment
-- Revenue contribution by RFM segment
-- Recency vs monetary scatter plot
-- Top customers by revenue
-- Top customers by profit
-- Customer detail table with recency, frequency, monetary, churn probability
-
-Drill-through:
-- Customer profile page by `customer_id`
-
-## Page 3: Churn Risk
-Purpose: Surface the customers most likely to go inactive and explain the size of the risk pool.
-
-Visuals:
-- Predicted at-risk customer KPI
-- Average churn probability KPI
-- Churn probability histogram
-- High-risk customer table
-- Churn risk by region
-- Churn risk by RFM segment
-
-## Page 4: Product & Profitability
-Purpose: Reveal which products and categories create profitable scale and which destroy margin.
-
-Visuals:
-- Sales by category
-- Profit by category
-- Profit by sub-category
-- Top products by sales
-- Loss-making products table
-- Discount vs profit scatter plot
-
-## Page 5: Geographic Performance
-Purpose: Compare country, region, and market performance to identify leaders and laggards.
-
-Visuals:
-- Sales by country map
-- Profit by region column chart
-- Sales by market chart
-- Geographic ranking matrix
-- Filtered product/category performance by region
-
-## Visual Design Recommendations
-
-- Use a navy base with teal and emerald accents for KPIs and positive results.
-- Use rose/red sparingly for churn and loss signals.
-- Keep KPI cards in the top band with generous padding.
-- Place slicers in a left rail or top strip with consistent ordering.
-- Use no more than 5-6 visuals per page to maintain readability.
-- Add short page subtitles so the dashboard feels like a guided business story.
-
-## Recruiter-Focused Storytelling Flow
-
-1. Start with company performance and revenue trend.
-2. Move into customer value through RFM.
-3. Transition into churn risk and retention urgency.
-4. Show operational detail through product and profitability.
-5. Finish with geographic scale and market opportunity.
-
-This structure makes the dashboard feel strategic rather than purely descriptive.
+- Use a dark navy base with teal and blue accents.
+- Use rose/red only for risk, loss, or warning signals.
+- Keep KPI cards at the top of each page.
+- Keep charts readable, with no more than two main visuals per row.
+- Use short subtitles that explain what the user should review next.

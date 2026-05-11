@@ -65,7 +65,7 @@ overview_col1, overview_col2 = st.columns([1.15, 1])
 with overview_col1:
     render_insight(
         "What This App Covers",
-        "Review sales performance, customer value, churn risk, forecast trends, and the project workflow.",
+        "Review sales performance, customer value, churn risk, and forecast trends in one place.",
         tone="blue",
     )
 with overview_col2:
@@ -115,25 +115,20 @@ render_action_grid(
             "RFM segments, value concentration, and account priority.",
             "pages/02_customer_intelligence.py",
         ),
-        (
-            "Churn Risk",
-            "Retention severity, churn drivers, and risk tables.",
-            "pages/03_churn_risk.py",
-        ),
     ]
 )
 render_page_spacer(0.35)
 render_action_grid(
     [
         (
+            "Churn Risk",
+            "Retention severity, churn drivers, and risk tables.",
+            "pages/03_churn_risk.py",
+        ),
+        (
             "Revenue Forecast",
             "Historical momentum, future outlook, and forecast export.",
             "pages/04_revenue_forecast.py",
-        ),
-        (
-            "Methodology",
-            "Project architecture, modeling flow, and delivery notes.",
-            "pages/05_project_methodology.py",
         ),
     ]
 )

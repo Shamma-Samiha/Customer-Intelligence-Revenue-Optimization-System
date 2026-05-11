@@ -1,23 +1,43 @@
 # Project Plan
 
 ## Project Name
+
 Customer Intelligence & Revenue Forecasting System
 
+## Goal
+
+Build a practical retail analytics system that connects historical orders to sales performance, customer value, churn risk, and short-term revenue planning.
+
 ## Business Problem
-Retail businesses need a practical analytics system that links historical transactions to customer value, churn risk, product profitability, and future revenue planning.
+
+Retail transaction data is useful only when it leads to clear decisions. Leadership needs to know where sales and profit come from, which customers deserve attention, who may churn, and what revenue could look like next.
 
 ## Objectives
-- Standardize and clean transactional retail data
-- Build recruiter-ready EDA and KPI reporting
-- Segment customers using RFM logic
-- Estimate churn risk from behavioral features
-- Forecast the next 90 days of revenue
-- Deliver dashboard-ready exports for Power BI and Streamlit
+
+- Clean and standardize transactional retail data.
+- Build reusable datasets for analysis and dashboarding.
+- Create executive KPI reporting.
+- Segment customers with RFM logic.
+- Score churn risk using customer behavior features.
+- Forecast near-term daily revenue.
+- Deliver an interactive Streamlit website and Power BI-ready exports.
 
 ## Deliverables
-- Six structured notebooks
-- Reusable analytics scripts
-- Dashboard-ready CSV outputs
-- Premium Streamlit app
-- Power BI specification and DAX guide
-- GitHub-ready documentation
+
+- Analytics notebooks for data exploration, segmentation, churn, and forecasting.
+- Reusable Python scripts for the full pipeline.
+- Dashboard-ready CSV outputs.
+- Four-page Streamlit website:
+  - Executive Overview
+  - Customer Intelligence
+  - Churn Risk
+  - Revenue Forecast
+- Power BI dashboard specification and supporting assets.
+- Polished documentation for project review and portfolio presentation.
+
+## Success Criteria
+
+- The pipeline can regenerate the processed datasets.
+- The dashboard loads from repository-relative paths.
+- Users can filter key views and export important tables.
+- The dashboard tells a clear business story without requiring notebook context.

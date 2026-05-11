@@ -1,13 +1,25 @@
 # Business Insights
 
-## Executive Perspective
-The business generates meaningful sales volume, but not all revenue is equally healthy. Profit, margin, and segment contribution reveal where commercial quality is strongest.
+## Executive Overview
+
+The dashboard separates sales from profit so users can see whether growth is healthy. Regional and segment views help identify where revenue is concentrated and where margin pressure may need a closer look.
 
 ## Customer Intelligence
-RFM segmentation identifies a small but important set of high-value customers that deserve retention focus, while at-risk groups surface where reactivation efforts could create measurable upside.
+
+RFM segmentation shows that customer value is not evenly distributed. High-value and loyal customers should be protected, while at-risk customers are better suited for reactivation campaigns and targeted offers.
 
 ## Churn Risk
-The churn model is a proxy risk model based on inactivity and purchase behavior. It is most useful for prioritization, early-warning monitoring, and targeted outreach.
+
+The churn model is a prioritization tool. It uses customer behavior to highlight accounts that may need follow-up, especially when high churn probability overlaps with meaningful revenue.
 
 ## Revenue Forecasting
-The 90-day forecast creates a planning view for commercial teams. Even a baseline model adds value by helping teams prepare around expected momentum and volatility.
+
+The forecast gives a planning range for the near-term revenue window. It is most useful when reviewed weekly against actual sales so teams can adjust targets, staffing, and operating assumptions early.
+
+## Recommended Business Actions
+
+- Protect high-value customer segments with proactive retention work.
+- Review customers with both high churn risk and high revenue first.
+- Track profit alongside sales before scaling a region or segment.
+- Compare forecasted and actual revenue weekly.
+- Use exports from the dashboard for follow-up lists and planning reviews.
