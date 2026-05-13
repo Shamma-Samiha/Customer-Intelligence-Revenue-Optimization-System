@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <a href="https://customer-intelligence-revenue-optimization-system-mhvrwsynfhxa.streamlit.app">
+  <a href="https://customer-intelligence-revenue-optimization-system.streamlit.app/">
     <img src="https://img.shields.io/badge/Live_App-Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" alt="Streamlit App">
   </a>
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
@@ -25,7 +25,8 @@ The project includes a reusable Python pipeline, dashboard-ready CSV outputs, Po
 
 ## Live Demo
 
-> **🌐 [Open the Live App →](https://customer-intelligence-revenue-optimization-system-mhvrwsynfhxa.streamlit.app)**
+> **🌐 [Open the Live App →]([https://customer-intelligence-revenue-optimization-system-mhvrwsynfhxa.streamlit.app])**
+
 
 ---
 
@@ -267,7 +268,7 @@ The app is deployed on **Streamlit Community Cloud**.
 |---|---|
 | **Entry point** | `webapp/Customer_Intelligence_Hub.py` |
 | **Branch** | `main` |
-| **Live URL** | [customer-intelligence-revenue-optimization-system-mhvrwsynfhxa.streamlit.app](https://customer-intelligence-revenue-optimization-system-mhvrwsynfhxa.streamlit.app) |
+| **Live URL** | [customer-intelligence-revenue-optimization-system-mhvrwsynfhxa.streamlit.app](https://customer-intelligence-revenue-optimization-system.streamlit.app/) |
 
 The app uses repository-relative paths and cached CSV loading, so it runs both locally and on Streamlit Cloud after the pipeline outputs are available.
 
