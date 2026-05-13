@@ -25,7 +25,7 @@ The project includes a reusable Python pipeline, dashboard-ready CSV outputs, Po
 
 ## Live Demo
 
-> **🌐 [Open the Live App →]([https://customer-intelligence-revenue-optimization-system-mhvrwsynfhxa.streamlit.app])**
+> **🌐 [Open the Live App →](https://customer-intelligence-revenue-optimization-system-mhvrwsynfhxa.streamlit.app)**
 
 
 ---
